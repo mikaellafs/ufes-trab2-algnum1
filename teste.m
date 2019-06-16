@@ -31,11 +31,11 @@ for i=1:nx*ny
 endfor
 % zerando b em algumas linhas
 for i=0:(ny-1)
-  diags(i*nx +1, :) = [dp,0,ep,ap,cp];
+  diags(i*nx +1, 2) = 0;
 endfor
 % zerando a em algumas linhas
 for i=1:ny
-  diags(i*nx, :) = [dp,bp,ep,0,cp];
+  diags(i*nx, 4) = 0;
 endfor
 
 #### Criando vetor de coeficientes independentes ####
