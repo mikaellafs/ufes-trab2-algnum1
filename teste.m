@@ -29,6 +29,14 @@ diags = [dp,bp,ep,ap,cp]
 for i=1:nx*ny
   diags(i, :) = [dp,bp,ep,ap,cp];
 endfor
+% zerando b em algumas linhas
+for i=0:(ny-1)
+  diags(i*nx +1, :) = [dp,0,ep,ap,cp];
+endfor
+% zerando a em algumas linhas
+for i=1:ny
+  diags(i*nx, :) = [dp,bp,ep,0,cp];
+endfor
 
 #### Criando vetor de coeficientes independentes ####
 n = 1;
@@ -42,9 +50,10 @@ for i=1:nx
 endfor
 
 #### Aplicando condicoes de contorno ####
-# Ajustando para outras condicoes que o problema der: (aqui usa a g(x,y))
-%apenas um teste:
-[diags, coefInd] = aplicaCondicoes(2.5, 2.5, 0, 2.50, zeros(1,nx*ny), hy, hx, coefInd, diags,ny, a,c)
+% Ajustando para V=0 na fronteira
+
+
+% Ajustando para outras condicoes que o problema der: (aqui usa a g(x,y))
 
 
 #### Resolver o sistema gerado pelo metodo sor ####
