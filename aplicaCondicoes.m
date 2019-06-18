@@ -2,13 +2,9 @@ function [diags, coefInd] = aplicaCondicoes(pxi, pxf, pyi, pyf, gp, hy, hx, coef
   % gp é o vetor com os valores de V nos pontos dados pela condicao
   
   % indice inicial do x
-  indXi = (pxi-a)*ny/hx
-  if(indXi == 0) indXi = 1;
-  endif
+  indXi = (pxi-a)*ny/hx;
   % indice final do x
-  indXf = (pxf-a)*ny/hx
-  if(indXf == 0) indXf = 1;
-  endif
+  indXf = (pxf-a)*ny/hx;
   % indice relativo inicial do y
   indYi = (pyi-c)/hy+1;
   % indice relativo final do y
