@@ -23,15 +23,15 @@ function [v] = Vp(x,y)
 endfunction
 
 #################################################
-nx = (b-a)/hx +1;
-ny = (d-c)/hy +1;
-
+nx = (b-a)/hx;
+ny = (d-c)/hy;
+nx
+ny
 ap = bp = -1/(hx^2);
 cp = dp = -1/(hy^2);
-ep = 2/(ap+cp);
+ep = -2*(ap+cp);
 
 #### Criando vetor de diagonais ####
-diags = [dp,bp,ep,ap,cp];
 for i=1:nx*ny
   diags(i, :) = [dp,bp,ep,ap,cp];
 endfor
@@ -43,7 +43,6 @@ endfor
 for i=1:ny
   diags(i*nx, 4) = 0;
 endfor
-
 #### Criando vetor de coeficientes independentes ####
 n = 1;
 for i=1:nx
@@ -54,14 +53,15 @@ for i=1:nx
     n = n+1;
   endfor
 endfor
+n-1
+
 
 #### Aplicando condicoes de contorno ####
 % Ajustando para V=0 na fronteira
-zero = zeros(2*(nx+ny), 1);
-[diags, fp] = aplicaCondicoes(a, a, c, d, zero, hy, hx, fp, diags,ny, a, c);
-[diags, fp] = aplicaCondicoes(b, b, c, d, zero, hy, hx, fp, diags,ny, a, c);
-[diags, fp] = aplicaCondicoes(a, b, c, c, zero, hy, hx, fp, diags,ny, a, c);
-[diags, fp] = aplicaCondicoes(a, b, d, d, zero, hy, hx, fp, diags,ny, a, c);
+[diags, fp] = aplicaCondicoes(a, a, c, d, zeros(ny,1), hy, hx, fp, diags,ny, a, c);
+[diags, fp] = aplicaCondicoes(b, b, c, d, zeros(ny,1), hy, hx, fp, diags,ny, a, c);
+[diags, fp] = aplicaCondicoes(a, b, c, c, zeros(nx,1), hy, hx, fp, diags,ny, a, c);
+[diags, fp] = aplicaCondicoes(a, b, d, d, zeros(nx,1), hy, hx, fp, diags,ny, a, c);
 
 % Ajustando para V= g(x,y) em y= 2.5, 0<x<10
 for i = 1:(nx-1)
@@ -76,7 +76,7 @@ endfor
 t = cos(pi/nx) + cos(pi/ny);
 w = (8 - (64-16*t^2)^(1/2))/t^2;
 
-[V,iter] = sorDiag(diags, fp, 10^(-6), 20, w);
+[V,iter] = sorDiag(diags, fp, 10^(-6), 100, w, ny);
 
 #### Calculo do erro a partir do valor esperado ####
 %% Valores esperados %%
@@ -85,7 +85,7 @@ for i=1:nx
   x = a + (i-1)*hx;
   for j=1:ny
     y = c + (j-1)*hy;
-    Vexato(n, :) = Vp(x,y);
+    Vexato(n) = Vp(x,y);
     n = n+1;
   endfor
 endfor
@@ -95,3 +95,4 @@ for i = 1:nx*ny
   Vr(i) = abs(Vexato(i)-V(i));
 endfor
 err= max(Vr)
+

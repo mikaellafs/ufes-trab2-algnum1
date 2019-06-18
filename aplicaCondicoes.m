@@ -12,14 +12,14 @@ function [diags, coefInd] = aplicaCondicoes(pxi, pxf, pyi, pyf, gp, hy, hx, coef
   disp(' ')
   
   p = 1;
-  i = indXi
+  i = indXi;
   while i<=indXf
     for j = indYi:indYf
       k = i+j;
-      coefInd(k) = gp(p);
+      coefInd(k) = 0;
       diags(k, :) = [0,0,1,0,0];
       p = p + 1;
     endfor
-    i = i+ny+1;
+    i = i+ny
   endwhile
 endfunction

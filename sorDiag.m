@@ -1,17 +1,5 @@
-function [x, iter] = sorDiag(diags,b,tol,nmaxiter,w)
-%
-% Entrada: 
-%   diags,b = vetor das diagonais, vetor independente
-%   tol = tolerancia
-%   nmaxiter = numero maximo de iteracoes
-%   w = parametro SOR (w=1 Gauss-Seidel)
-% Saida:
-%   x = vetor solucao
-%   iter = numero de iteracoes
-%
-  
-  [n,tam] = size(diags);
-  meio = fix(tam/2 +1);
+function [x, iter] = sorDiag(diags,b,tol,nmaxiter,w, ny)
+  [n,tam]=size(diags);
   x0 = zeros(n,1);
   x = x0;
   iter = 0;
@@ -19,21 +7,20 @@ function [x, iter] = sorDiag(diags,b,tol,nmaxiter,w)
 
   while (err > tol) && (iter < nmaxiter)
     for i=1:n
-      soma = 0.0;
-      for j=1:meio-1
-        aux1 = i-j;
-        if(aux1<1) a = 0;
-        else a = x(aux1);
+        if(i-ny<1) a1=0;
+        else a1=x(i-ny);
         endif
-      
-        aux2 = i+j;
-        if(aux2>n) c = 0;
-        else c = x0(aux2);
+        if(i-1<1) a2=0;
+        else a2=x(i-1);
         endif
-
-        soma = soma + a*diags(i,meio-j) + c*diags(i,meio+j);
-      endfor
-      x(i) = w*(b(i) - soma)/diags(i,meio) + (1-w)*x0(i);
+        if (i+1>n) a3=0;
+        else a3=x0(i+1);
+      endif
+      if (i+ny>n) a4=0;
+      else a4=x0(i+ny);
+      endif
+      soma = a1*diags(i,1) + a2*diags(i,2) + a3*diags(i,4) + a4*diags(i,5);
+      x(i) = w*(b(i) - soma)/diags(i,3) + (1-w)*x0(i);
     endfor
     iter = iter + 1;
     x0 = x;
