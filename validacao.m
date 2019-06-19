@@ -25,8 +25,7 @@ endfunction
 #################################################
 nx = (b-a)/hx;
 ny = (d-c)/hy;
-nx
-ny
+
 ap = bp = -1/(hx^2);
 cp = dp = -1/(hy^2);
 ep = -2*(ap+cp);
@@ -53,7 +52,6 @@ for i=1:nx
     n = n+1;
   endfor
 endfor
-n-1
 
 
 #### Aplicando condicoes de contorno ####
@@ -81,7 +79,7 @@ w = (8 - (64-16*t^2)^(1/2))/t^2;
 #### Calculo do erro a partir do valor esperado ####
 %% Valores esperados %%
 n = 1;
-for i=1:nx
+for i=1:nx+1
   x = a + (i-1)*hx;
   for j=1:ny
     y = c + (j-1)*hy;
@@ -91,8 +89,7 @@ for i=1:nx
 endfor
 
 %% Erro %%
-for i = 1:nx*ny
+for i = 1:(nx+1)*ny
   Vr(i) = abs(Vexato(i)-V(i));
 endfor
 err= max(Vr)
-

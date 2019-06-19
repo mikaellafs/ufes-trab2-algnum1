@@ -22,6 +22,7 @@ function [x, iter] = sorDiag(diags,b,tol,nmaxiter,w, ny)
       soma = a1*diags(i,1) + a2*diags(i,2) + a3*diags(i,4) + a4*diags(i,5);
       x(i) = w*(b(i) - soma)/diags(i,3) + (1-w)*x0(i);
     endfor
+    err = norm((x-x0)/x);
     iter = iter + 1;
     x0 = x;
   endwhile
