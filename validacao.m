@@ -23,8 +23,8 @@ function [v] = Vp(x,y)
 endfunction
 
 #################################################
-nx = (b-a)/hx;
-ny = (d-c)/hy;
+nx = (b-a)/hx+1;
+ny = (d-c)/hy+1;
 
 ap = bp = -1/(hx^2);
 cp = dp = -1/(hy^2);
@@ -35,12 +35,12 @@ for i=1:nx*ny
   diags(i, :) = [dp,bp,ep,ap,cp];
 endfor
 % zerando b em algumas linhas
-for i=0:(ny-1)
-  diags(i*nx +1, 2) = 0;
+for i=0:(nx-1)
+  diags(i*ny +1, 2) = 0;
 endfor
 % zerando a em algumas linhas
-for i=1:ny
-  diags(i*nx, 4) = 0;
+for i=1:nx
+  diags(i*ny, 4) = 0;
 endfor
 #### Criando vetor de coeficientes independentes ####
 n = 1;
@@ -79,17 +79,39 @@ w = (8 - (64-16*t^2)^(1/2))/t^2;
 #### Calculo do erro a partir do valor esperado ####
 %% Valores esperados %%
 n = 1;
-for i=1:nx+1
+for i=1:nx
   x = a + (i-1)*hx;
   for j=1:ny
     y = c + (j-1)*hy;
+    pontosX(n)=x;
+    pontosY(n)=y;
     Vexato(n) = Vp(x,y);
     n = n+1;
   endfor
 endfor
 
 %% Erro %%
-for i = 1:(nx+1)*ny
+for i = 1:(nx)*ny
   Vr(i) = abs(Vexato(i)-V(i));
 endfor
-err= max(Vr)
+err= max(Vr);
+fprintf("Erro de: %f  ",err);
+
+disp(' ');
+%%%%%%%%%%%%% PLOTANDO OS GRAFICOS %%%%%%%%%%%%%%
+## Grafico de V calculado##
+V1 = V';
+[X,Y] = meshgrid(pontosX,pontosY);
+[Z] = griddata(pontosX,pontosY,V1,X,Y);
+surf(X,Y,Z);
+title("V - Calculado");
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+## Grafico de Vexato ##
+[Z1] = griddata(pontosX,pontosY,Vexato,X,Y);
+figure;
+surf(X,Y,Z1);
+title("V exato");
+%%%%%%%%%%%%%%%%%%%%%%%%%
+disp("Tecle algo para continuar...");
+pause;
+close all;
