@@ -16,10 +16,8 @@ function [diags, coefInd] = aplicaCondicoes(pxi, pxf, pyi, pyf, gp, hy, hx, coef
   while i<=indXf
     for j = indYi:indYf
       k = i+j;
-      if(p<=length(gp))
         coefInd(k) = gp(p);
         diags(k, :) = [0,0,1,0,0];
-      endif
       p = p + 1;
     endfor
     i = i+ny;
