@@ -98,15 +98,15 @@ err= max(Vr);
 fprintf("Erro de: %f  ",err);
 
 disp(' ');
-%%%%%%%%%%%%% PLOTANDO OS GRAFICOS %%%%%%%%%%%%%%
-## Grafico de V calculado##
+#### Plotando os gráficos ####
+%% Grafico de V calculado %%
 V1 = V';
 [X,Y] = meshgrid(pontosX,pontosY);
 [Z] = griddata(pontosX,pontosY,V1,X,Y);
 surf(X,Y,Z);
 title("V - Calculado");
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-## Grafico de Vexato ##
+
+%% Grafico de Vexato %%
 [Z1] = griddata(pontosX,pontosY,Vexato,X,Y);
 figure;
 surf(X,Y,Z1);
