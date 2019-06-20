@@ -34,11 +34,11 @@ ep = -2*(ap+cp);
 for i=1:nx*ny
   diags(i, :) = [dp,bp,ep,ap,cp];
 endfor
-% zerando b em algumas linhas
+%% Zerando b em algumas linhas %%
 for i=0:(nx-1)
   diags(i*ny +1, 2) = 0;
 endfor
-% zerando a em algumas linhas
+%% Zerando a em algumas linhas %%
 for i=1:nx
   diags(i*ny, 4) = 0;
 endfor
@@ -55,13 +55,13 @@ endfor
 
 
 #### Aplicando condicoes de contorno ####
-% Ajustando para V=0 na fronteira
+%% Ajustando para V=0 na fronteira %%
 [diags, fp] = aplicaCondicoes(a, a, c, d, zeros(ny,1), hy, hx, fp, diags,ny, a, c);
 [diags, fp] = aplicaCondicoes(b, b, c, d, zeros(ny,1), hy, hx, fp, diags,ny, a, c);
 [diags, fp] = aplicaCondicoes(a, b, c, c, zeros(nx,1), hy, hx, fp, diags,ny, a, c);
 [diags, fp] = aplicaCondicoes(a, b, d, d, zeros(nx,1), hy, hx, fp, diags,ny, a, c);
 
-% Ajustando para V= g(x,y) em y= 2.5, 0<x<10
+%% Ajustando para V= g(x,y) em y= 2.5, 0<x<10 %%
 for i = 1:(nx-1)
    x = a+(i*hx);
    gp(i) = g(x,2.5);
@@ -70,7 +70,7 @@ endfor
 [diags, fp] = aplicaCondicoes(a+hx, b-hx, 2.5, 2.5, gp, hy, hx, fp, diags,ny, a, c);
 
 #### Resolver o sistema gerado pelo metodo sor ####
-% Calculo de w:
+%% Calculo de w: %%
 t = cos(pi/nx) + cos(pi/ny);
 w = (8 - (64-16*t^2)^(1/2))/t^2;
 
