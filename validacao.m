@@ -23,8 +23,8 @@ function [v] = Vp(x,y)
 endfunction
 
 #################################################
-nx = (b-a)/hx+1;
-ny = (d-c)/hy+1;
+nx = (b-a)/hx +1;
+ny = (d-c)/hy +1;
 
 ap = bp = -1/(hx^2);
 cp = dp = -1/(hy^2);
@@ -91,31 +91,35 @@ for i=1:nx
 endfor
 
 %% Erro %%
-for i = 1:(nx)*ny
+for i = 1:nx*ny
   Vr(i) = abs(Vexato(i)-V(i));
 endfor
-err= max(Vr);
-fprintf("Erro de: %f  ",err);
+err= max(Vr)
 
 disp(' ');
-%%%%%%%%%%%%% PLOTANDO OS GRAFICOS %%%%%%%%%%%%%%
-## Grafico de V calculado##
+#### PLOTANDO OS GRAFICOS ####
+%% Grafico de V calculado
 V1 = V';
 [X,Y] = meshgrid(pontosX,pontosY);
 [Z] = griddata(pontosX,pontosY,V1,X,Y);
+figure;
 surf(X,Y,Z);
 title("V - Calculado");
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-## Grafico de Vexato ##
+
+%% Grafico de Vexato 
 [Z1] = griddata(pontosX,pontosY,Vexato,X,Y);
 figure;
 surf(X,Y,Z1);
 title("V exato");
-%%%%%%%%%%%%%%%%%%%%%%%%%
-E = -gradient(V1);
-[Z2] = griddata(pontosX,pontosY,E,X,Y);
-figure;
-surf(X,Y,Z2);
+
+%% Campo elétrico
+[fx,fy] = gradient(Z);
+figure
+hold on
+contour(X,Y,Z);
+quiver(pontosX, pontosY, -fx, -fy,20);
+hold off
+
 disp("Tecle algo para continuar...");
 pause;
 close all;
