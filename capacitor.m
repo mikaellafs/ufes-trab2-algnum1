@@ -69,9 +69,17 @@ w = (8 - (64-16*t^2)^(1/2))/t^2;
 figure;
 surf(X,Y,Z);
 title("Potencial elétrico");
-
+figure;
+pcolor(X,Y,Z);
+colorbar;
+title("Heatmap para o potencial");
 %% Campo elétrico
 [fx,fy] = gradient(Z);
+figure
+E = -fx-fy;
+pcolor(X,Y,E);
+colorbar;
+title("Heatmap para campo elétrico");
 figure
 hold on
 contour(X,Y,Z);
