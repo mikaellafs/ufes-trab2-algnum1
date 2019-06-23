@@ -1,4 +1,4 @@
-function [x, iter] = sorDiag(diags,b,tol,nmaxiter,w, ny)
+function [x, iter,err] = sorDiag(diags,b,tol,nmaxiter,w, ny)
   [n,tam]=size(diags);
   x0 = zeros(n,1);
   x = x0;
