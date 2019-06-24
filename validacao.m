@@ -2,8 +2,8 @@ clc
 clear all
 ##################### Validação da solução com um problema conhecido #####################
 ############# DADOS DO PROBLEMA ################
-hx = 0.125;
-hy = 0.125;
+hx = 0.5;
+hy = 0.5;
 a = 0;
 b = 10;
 c = 0;
@@ -84,16 +84,24 @@ endfor
 
 #### Resolvendo para seidel ######
 [V_1,iter,err] = sorDiag(diags,fp,10^(-6),1000,1,ny);
+fprintf("Numero de iterações para Seidel foi de:\n")
 iter
+disp(' ')
+fprintf("Erro de convergência para Seidel foi de:\n");
 err
+disp(' ')
 #### Resolver o sistema gerado pelo metodo sor ####
 % Calculo de w:
 t = cos(pi/nx) + cos(pi/ny);
 w = (8 - (64-16*t^2)^(1/2))/t^2;
 
 [V_2,iter,err] = sorDiag(diags, fp, 10^(-6), 1000, w, ny);
+fprintf("Numero de iterações para SOR foi de:\n")
 iter
+disp(' ')
+fprintf("Erro de convergência para SOR foi de:\n");
 err
+disp(' ')
 #### Calculo do erro a partir do valor esperado ####
 
 %% Erro para V pelo metodo de Gauss Seidel 
@@ -129,11 +137,11 @@ title("V - Calculado - heatmap ");
 [Z1] = griddata(pontosX,pontosY,Vexato,X,Y);
 figure;
 surf(X,Y,Z1);
-figure;
 title("V exato - 3D");
+figure;
 pcolor(X,Y,Z);
 colorbar;
-title("V exato - Calculado - heatmap ");
+title("V exato - heatmap ");
 %% Campo elétrico
 [fx,fy] = gradient(Z);
 E = -fx-fy;
