@@ -60,8 +60,13 @@ k = 4/hx +1;
 t = cos(pi/nx) + cos(pi/ny);
 w = (8 - (64-16*t^2)^(1/2))/t^2;
 
-[V,iter] = sorDiag(diags, fp, 10^(-6), 100, w, ny);
-
+[V,iter,err] = sorDiag(diags, fp, 10^(-6), 100, w, ny);
+fprintf("Numero de iterações foi de:\n")
+iter
+disp(' ')
+fprintf("Erro de convergência foi de:\n");
+err
+disp(' ')
 #### PLOTANDO OS GRAFICOS ####
 %% Grafico do potencial
 [X,Y] = meshgrid(pontosX,pontosY);
